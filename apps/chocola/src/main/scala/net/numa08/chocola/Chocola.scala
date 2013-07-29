@@ -14,5 +14,7 @@ class Chocola extends Daemon {
 }
 
 object Chocola extends App{
-	
+	val chocola = new Chocola
+	chocola.init(null)
+	chocola.start
 }
