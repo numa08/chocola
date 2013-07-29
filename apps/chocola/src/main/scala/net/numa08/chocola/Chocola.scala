@@ -11,9 +11,9 @@ class Chocola extends Daemon {
 	def init(context:DaemonContext) {}
 
 	def start() {
-		val accountFile = new File("resource/account.properties")
+		val accountFile = new File("src/resources/account.properties")
 		val twitterObservation = new TwitterObservation(accountFile)
-		//twitterObservation.startObsevation
+		twitterObservation.startObsevation
 	}
 
 	def stop() {}
