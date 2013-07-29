@@ -38,7 +38,7 @@ class TwitterObservation(val account:File) {
 	val statusListner = new StatusListener(){
 
 		def onStatus(status:Status){
-			println(status.getText)
+			//DirectMessage(status.getText).to(numa08)
 		}
 		def onDeletionNotice(statusDeletionNotice :StatusDeletionNotice){}
 		def onTrackLimitationNotice(limit:Int){}
