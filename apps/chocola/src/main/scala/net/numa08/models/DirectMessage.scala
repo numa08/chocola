@@ -7,9 +7,13 @@ import twitter4j.conf.Configuration
 
 case class DirectMessage(val message:String, val config:Configuration) extends  Notification{
 		def notifTo(destination:NotifDestination){
+			val text = message.substring(0, 140)
+
+			println(text)
+
 			import twitter4j.DirectMessage
 			val twitter = new TwitterFactory(config).getInstance()
-			twitter.sendDirectMessage(destination.identifier, message)
+			twitter.sendDirectMessage(destination.identifier, text)
 		}
 }
 
