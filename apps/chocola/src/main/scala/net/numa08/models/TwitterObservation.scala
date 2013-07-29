@@ -19,11 +19,12 @@ import twitter4j.StallWarning;
 import twitter4j.StatusListener;
 import twitter4j.Status
 import twitter4j.StatusDeletionNotice
+import twitter4j.conf.ConfigurationBuilder
 
 import org.apache.commons.lang.StringEscapeUtils
 
 class TwitterObservation(val account:File) {
-	lazy val oauth = () => {
+	lazy val oauthRecords = {
 		val configure = new Properties
 		configure.load(new FileInputStream(account))
 
@@ -32,12 +33,30 @@ class TwitterObservation(val account:File) {
 		val accessToke = configure.getProperty("access_toke")
 		val accessTokeSecret = configure.getProperty("access_toke_secret")
 
-		new OAuth1(consumerKey, consumerSecret, accessToke, accessTokeSecret)		
+		OauthRecord(consumerKey, consumerSecret, accessToke, accessTokeSecret)
 	}
+
+
+	lazy val oauth = () => {
+		new OAuth1(oauthRecords.consumerKey, oauthRecords.consumerSecret, oauthRecords.accessToke, oauthRecords.accessTokeSecret)
+	}
+
+	lazy val t4jOauth = () => {
+		new ConfigurationBuilder()
+								.setDebugEnabled(true)
+								.setOAuthConsumerKey(oauthRecords.consumerKey)
+								.setOAuthConsumerSecret(oauthRecords.consumerSecret)
+								.setOAuthAccessToken(oauthRecords.accessToke)
+								.setOAuthAccessTokenSecret(oauthRecords.accessTokeSecret)
+								.build
+  	}
 
 	val statusListner = new StatusListener(){
 
 		def onStatus(status:Status){
+			println(status.getText)
+			// val numa08 = TwitterUser("numa08")
+			// DirectMessage("hello").notifTo(numa08)
 			//DirectMessage(status.getText).to(numa08)
 		}
 		def onDeletionNotice(statusDeletionNotice :StatusDeletionNotice){}
@@ -48,6 +67,9 @@ class TwitterObservation(val account:File) {
 	}
 
 	def startObsevation(){
+		val numa08 = TwitterUser("numa08")
+		DirectMessage("start", t4jOauth()).notifTo(numa08)
+
 		val description = new LinkedBlockingQueue[String](100000)
 
 		val client = new ClientBuilder().hosts(Constants.USERSTREAM_HOST)
@@ -68,5 +90,7 @@ class TwitterObservation(val account:File) {
 		// 													val out = StringEscapeUtils.unescapeJava(json)
 		// 													println(out)})
 
-	}	
+	}
 }
+
+case class OauthRecord(consumerKey:String, consumerSecret:String, accessToke: String, accessTokeSecret:String)
