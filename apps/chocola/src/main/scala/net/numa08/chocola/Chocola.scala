@@ -1,12 +1,20 @@
 package net.numa08.chocola
 
+import net.numa08.models._
+
+import java.io.File
+
 import org.apache.commons.daemon._
 
 class Chocola extends Daemon {
 
 	def init(context:DaemonContext) {}
 
-	def start() {}
+	def start() {
+		val accountFile = new File("resource/account.properties")
+		val twitterObservation = new TwitterObservation(accountFile)
+		//twitterObservation.startObsevation
+	}
 
 	def stop() {}
 
