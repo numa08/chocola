@@ -10,7 +10,7 @@ object ChocolaBuild extends Build {
       name := "Chocola",
       organization := "net.numa08.chocola",
       version := "0.1-SNAPSHOT",
-      scalaVersion := "2.10.0"
+      scalaVersion := "2.9.3"
       // add other settings here
     )
   )
