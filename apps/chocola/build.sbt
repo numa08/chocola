@@ -9,3 +9,5 @@ libraryDependencies += "com.twitter" % "hbc-twitter4j-v3" % "1.4.0"
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
  
 libraryDependencies += "com.typesafe.akka" % "akka-actor" % "2.0.5"
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "1.9.1" % "test"

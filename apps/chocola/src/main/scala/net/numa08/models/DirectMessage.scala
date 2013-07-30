@@ -9,6 +9,7 @@ import twitter4j.conf.Configuration
 
 case class DirectMessage(val message:String, val config:Configuration) extends  Notification with Actor{
 		def notifTo(destination:NotifDestination){
+			println("notif!!" + message)
 			val system = ActorSystem()
 			val messanger = system.actorOf(Props(DirectMessage(message, config)), name = "messanger")
 			messanger ! destination
@@ -16,6 +17,7 @@ case class DirectMessage(val message:String, val config:Configuration) extends  
 
 		def receive = {
 			case target : TwitterUser => {
+				println("post!!")
 				val text = message.substring(0, 140)
 
 				val twitter = new TwitterFactory(config).getInstance()
