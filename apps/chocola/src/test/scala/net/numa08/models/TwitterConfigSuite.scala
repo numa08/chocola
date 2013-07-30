@@ -1,3 +1,4 @@
+package net.numa08.models
 import org.scalatest.FunSuite
 
 import java.io.File

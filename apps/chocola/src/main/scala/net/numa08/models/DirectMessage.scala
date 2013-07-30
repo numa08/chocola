@@ -7,25 +7,30 @@ import twitter4j.TwitterException
 import twitter4j.TwitterFactory
 import twitter4j.conf.Configuration
 
-case class DirectMessage(val message:String, val config:Configuration) extends  Notification with Actor{
+case class DirectMessage(val message:String, val config:Configuration) extends  Notification{
 		def notifTo(destination:NotifDestination){
 			println("notif!!" + message)
 			val system = ActorSystem()
-			val messanger = system.actorOf(Props(DirectMessage(message, config)), name = "messanger")
+			val twitter = new TwitterFactory(config).getInstance()
+			val text = if(message.length > 140) {
+							message.substring(0, 140)
+						} else {
+							message
+						}
+			val messanger = system.actorOf(Props(Messenger(text, twitter)), name = "messanger")
 			messanger ! destination
-		}
-
-		def receive = {
-			case target : TwitterUser => {
-				println("post!!")
-				val text = message.substring(0, 140)
-
-				val twitter = new TwitterFactory(config).getInstance()
-				twitter.sendDirectMessage(target.identifier, text)
-			}
 		}
 }
 
 case class TwitterUser(val id:String) extends NotifDestination{
 	def identifier:String = id
+}
+
+case class Messenger(val text:String, val twitter:Twitter) extends Actor {
+	def receive = {
+		case target : TwitterUser => {
+			println("post!!")
+			twitter.sendDirectMessage(target.identifier, text)
+		}
+	}
 }
