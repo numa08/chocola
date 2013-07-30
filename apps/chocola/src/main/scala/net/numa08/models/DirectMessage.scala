@@ -11,7 +11,7 @@ case class DirectMessage(val message:String, val config:Configuration) extends  
 		def notifTo(destination:NotifDestination){
 			val system = ActorSystem()
 			val messanger = system.actorOf(Props(DirectMessage(message, config)), name = "messanger")
-			messanger ! TwitterUser("numa08")
+			messanger ! destination
 		}
 
 		def receive = {
