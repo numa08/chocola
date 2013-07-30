@@ -52,24 +52,24 @@ class TwitterObservation(val account:File) {
   	}
 
 	val statusListner = new StatusListener(){
-
+		val messageText = (status:Status) => {
+			val statusUrl = "https://twitter.com/" + status.getUser.getScreenName + "/status/" + status.getId
+			statusUrl + " " + status.getText
+		}
 		def onStatus(status:Status){
 			val filterRule = (status:Status) => {
 				val pattern = ".*([nNｎＮ][uUｕＵ][mMｍＭ][aAａＡ]|ぬま|沼|[ヌﾇ][マﾏ])(さん|08|3|4|３|４)?.*"
 				val matches = status.getText.matches(pattern)// && status.getInReplyToScreenName.isEmpty
-				println(matches)
 				matches
 			}
 
-			Some(status).filter(filterRule).foreach(st => {
-				val statusUrl = "https://twitter.com/" + st.getUser.getScreenName + "/status/" + st.getId
-				val message = statusUrl + " " + st.getText
-
+			Option(status).filter(filterRule).foreach(st => {
+				val message = messageText(st)
+				println(message)
 				val numa08 = TwitterUser("numa08")
 				DirectMessage(message, t4jOauth()).notifTo(numa08)
 			 })
-			// val numa08 = TwitterUser("numa08")
-			// DirectMessage("start", t4jOauth()).notifTo(numa08)
+
 		}
 		def onDeletionNotice(statusDeletionNotice :StatusDeletionNotice){}
 		def onTrackLimitationNotice(limit:Int){}
