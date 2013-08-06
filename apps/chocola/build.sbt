@@ -22,3 +22,9 @@ jarName in assembly := "chocola.jar"
 
 test in assembly := {}
 
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+  {
+    case "account.propeties" => MergeStrategy.concat
+    case x => old(x)
+  }
+}
