@@ -11,9 +11,15 @@ class Chocola extends Daemon {
 	def init(context:DaemonContext) {}
 
 	def start() {
-		val accountFile = new File("src/resources/account.properties")
-		val twitterObservation = new TwitterObservation(accountFile)
-		twitterObservation.startObsevation
+    println(getClass.getResource("account.properties"))
+    val filePath = Option(getClass.getResource("account.properties"))
+    filePath match {
+      case Some(path) => { val accountFile = new File(path.getPath)
+                           val twitterObservation = new TwitterObservation(accountFile)
+                           twitterObservation.startObsevation
+                         }
+     case _ => println("file not found!!")
+    }
 	}
 
 	def stop() {}

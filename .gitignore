@@ -13,4 +13,4 @@ project/plugins/project/
 .scala_dependencies
 
 # Twitter accout setting
-**/resources/account.properties
+**/resources/**/account.properties
