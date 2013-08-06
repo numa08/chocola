@@ -7,7 +7,7 @@
 # description: Chocola is service what filter twitter time line.
 
 if [[ -f /usr/local/etc/chocola ]]; then
-	./usr/local/etc/chocola
+	source /usr/local/etc/chocola
 fi
 
 prog=Chocola
