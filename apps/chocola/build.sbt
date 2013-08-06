@@ -22,6 +22,3 @@ jarName in assembly := "chocola.jar"
 
 test in assembly := {}
 
-assembleArtifact in packageScala := false
-
-assembleArtifact in packageBin := false
