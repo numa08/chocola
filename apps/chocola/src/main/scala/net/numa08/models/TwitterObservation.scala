@@ -1,6 +1,7 @@
 package net.numa08.models
 
 import java.io.File
+import java.io.InputStream
 import java.io.FileInputStream
 import scala.io.Source
 import java.util.Properties
@@ -23,10 +24,10 @@ import twitter4j.conf.ConfigurationBuilder
 
 import org.apache.commons.lang.StringEscapeUtils
 
-class TwitterObservation(val account:File) {
+class TwitterObservation(val account:InputStream) {
 	lazy val oauthRecords = {
 		val configure = new Properties
-		configure.load(new FileInputStream(account))
+		configure.load(account)
 
 		val consumerKey = configure.getProperty("consumer_key")
 		val consumerSecret = configure.getProperty("consumer_secret")
