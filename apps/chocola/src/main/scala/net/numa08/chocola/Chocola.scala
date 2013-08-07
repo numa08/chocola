@@ -13,7 +13,7 @@ class Chocola extends Daemon {
   def start() {
     val filePath = Option(getClass.getResource("account.properties"))
       val file = filePath match {
-      case Some(path) =>  Option(new File(path.getPath))
+      case Some(path) =>  Option(new File(path.toURI))
       case _ => None
     }
     file match {
