@@ -58,13 +58,8 @@ class TwitterObservation(val account:InputStream) {
 			statusUrl + " " + status.getText
 		}
 		def onStatus(status:Status){
-			val filterRule = (status:Status) => {
-				val pattern = ".*([nNｎＮ][uUｕＵ][mMｍＭ][aAａＡ]|ぬま|沼|[ヌﾇ][マﾏ])(さん|08|3|4|３|４)?.*"
-				val matches = status.getText.matches(pattern)// && status.getInReplyToScreenName.isEmpty
-				matches
-			}
 
-			Option(status).filter(filterRule).foreach(st => {
+      new NumaFilter(status).filter(st => {
 				val message = messageText(st)
 				println(message)
 				val numa08 = TwitterUser("numa08")
