@@ -1,7 +1,7 @@
 package net.numa08.cappuccino.models
 
 trait Notification {
-  def nitifTo(destination : NotifDestination)
+  def notifTo(destination : NotifDestination)
 }
 
 trait NotifDestination {
