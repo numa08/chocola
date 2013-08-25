@@ -14,3 +14,6 @@ project/plugins/project/
 
 # Twitter accout setting
 **/resources/**/account.properties
+
+# Eclipse Settings
+*.metadata
