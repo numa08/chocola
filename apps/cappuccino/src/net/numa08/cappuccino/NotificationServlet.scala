@@ -10,7 +10,10 @@ class NotificationServlet extends HttpServlet {
   
   override def doPut(req : HttpServletRequest, resp : HttpServletResponse) {
     val status = Source.fromInputStream(req.getInputStream()).getLines().mkString("")
-    NotificationServlet.log.info("status is " + status)
+    status.isEmpty match {
+     case true => {}
+     case _ => {}
+   }
   }
 
 }
