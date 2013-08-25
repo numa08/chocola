@@ -17,3 +17,7 @@ project/plugins/project/
 
 # Eclipse Settings
 *.metadata
+*.cache
+
+# vim file
+*.swp
