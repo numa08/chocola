@@ -1,6 +1,7 @@
 package net.numa08.models
 
 import java.io.File
+import java.io.InputStream
 import java.io.FileInputStream
 import scala.io.Source
 import java.util.Properties
@@ -23,10 +24,10 @@ import twitter4j.conf.ConfigurationBuilder
 
 import org.apache.commons.lang.StringEscapeUtils
 
-class TwitterObservation(val account:File) {
+class TwitterObservation(val account:InputStream) {
 	lazy val oauthRecords = {
 		val configure = new Properties
-		configure.load(new FileInputStream(account))
+		configure.load(account)
 
 		val consumerKey = configure.getProperty("consumer_key")
 		val consumerSecret = configure.getProperty("consumer_secret")
@@ -57,13 +58,8 @@ class TwitterObservation(val account:File) {
 			statusUrl + " " + status.getText
 		}
 		def onStatus(status:Status){
-			val filterRule = (status:Status) => {
-				val pattern = ".*([nNｎＮ][uUｕＵ][mMｍＭ][aAａＡ]|ぬま|沼|[ヌﾇ][マﾏ])(さん|08|3|4|３|４)?.*"
-				val matches = status.getText.matches(pattern)// && status.getInReplyToScreenName.isEmpty
-				matches
-			}
 
-			Option(status).filter(filterRule).foreach(st => {
+      new NumaFilter(status).filter(st => {
 				val message = messageText(st)
 				println(message)
 				val numa08 = TwitterUser("numa08")
